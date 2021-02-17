@@ -89,22 +89,23 @@ class MyTimer extends React.Component {
             height: `${9}%`
           }}
         />
-            <h1>Sheet Time <CurrentTime sheettime={this.state.sheettime} /></h1>
+            <h1>Time Logged <CurrentTime sheettime={this.state.sheettime} /></h1>
+            <ActivityBox active={this.state.active} />
       </CircularProgressbarWithChildren>
-      <h1>Clock Time <CurrentTime sheettime={this.state.clocktime} /></h1>
+      {/*<h1>Clock Time <CurrentTime sheettime={this.state.clocktime} /></h1>*/}
       </div>
       )
   }
 }
 
-// class ActivityBox extends React.Component {
-//   render(){
-//     if (this.props.active === true) {
-//       return (<span>Active</span>)
-//     }
-//     return (<span>Inactive</span>)
-//   }
-// }
+class ActivityBox extends React.Component {
+  render(){
+    if (this.props.active === true) {
+      return (<h1>Working</h1>)
+    }
+    return (<h1>On Break</h1>)
+  }
+}
 
 class CurrentTime extends React.Component {
 
@@ -121,10 +122,11 @@ class CurrentTime extends React.Component {
 
   render(){
 
-    var remain = this.toTimeString(144000-this.props.sheettime)
+    var remain = this.toTimeString(Math.max(0,144000-this.props.sheettime))
     var logged = this.toTimeString(this.props.sheettime)
+    var remain_color = remain == "00:00:00" ? "green" : "red";
     return (
-      <div><span className="green">{logged}</span> <span className="red">{remain}</span></div>
+      <div><span className="green">{logged}</span> <span className={remain_color}>{remain}</span></div>
     );
   }
 }
